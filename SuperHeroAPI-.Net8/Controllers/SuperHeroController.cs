@@ -64,5 +64,21 @@ namespace SuperHeroAPI_.Net8.Controllers
 
             return Ok(await _context.SuperHeros.ToListAsync());
         }
+
+        [HttpDelete]
+        public async Task<ActionResult<List<SuperHero>>> DeleteHero(int id)
+        {
+            var dbHero = await _context.SuperHeros.FindAsync(id);
+
+            if (dbHero == null)
+            {
+                return NotFound("Hero Not Found");
+            }
+
+           _context.SuperHeros.Remove(dbHero);
+            await _context.SaveChangesAsync();
+
+            return Ok(await _context.SuperHeros.ToListAsync());
+        }
     }
 }
