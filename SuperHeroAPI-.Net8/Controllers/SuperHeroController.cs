@@ -25,7 +25,7 @@ namespace SuperHeroAPI_.Net8.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<SuperHero>>> GetOneHeros(int id)
+        public async Task<ActionResult<SuperHero>> GetOneHero(int id)
         {
             var hero = await _context.SuperHeros.FindAsync(id);
 
@@ -34,6 +34,15 @@ namespace SuperHeroAPI_.Net8.Controllers
             }
 
             return Ok(hero);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<SuperHero>>> createHero(SuperHero hero)
+        {
+            _context.SuperHeros.Add(hero);
+             await _context.SaveChangesAsync();
+
+            return Ok(await _context.SuperHeros.ToListAsync());
         }
     }
 }
